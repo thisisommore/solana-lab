@@ -10,7 +10,16 @@ borsh = "0.9.3"
 borsh-derive = "0.9.3"
 solana-program = "1.14.10"
 
+[features]
+no_entrypoint = [ ]
+# cargo test
+# cargo build/cargo run
+# cargo test
+# #[cfg("no-entrypoint")]
+# mod MyDate
 
 [dev-dependencies]
-solana-program-test = "1.14.10"
 solana-sdk = "1.14.10"
+
+[lib]
+crate-type=["cdylib"]
