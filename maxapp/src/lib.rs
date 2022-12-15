@@ -7,11 +7,12 @@ use solana_program::{
     msg,
     program_error::ProgramError,
     pubkey::Pubkey,
+    stake_history::Epoch,
 };
 
 #[derive(BorshSerialize, BorshDeserialize)]
-struct GreeterCounter {
-    counter: u32,
+pub struct GreeterCounter {
+    pub counter: u32,
 }
 
 entrypoint!(process_instuction);
@@ -33,4 +34,43 @@ pub fn process_instuction(
 
     greeter_counter.serialize(&mut &mut account.data.borrow_mut()[..])?;
     Ok(())
+}
+
+#[test]
+fn test_helloworld() {
+    let program_id = Pubkey::default();
+    let key = Pubkey::default();
+    let owner = Pubkey::default();
+    let mut data = vec![0_u8; 4];
+
+    let mut lamports = 0;
+    let account = AccountInfo::new(
+        &key,
+        false,
+        true,
+        &mut lamports,
+        &mut data,
+        &owner,
+        false,
+        Epoch::default(),
+    );
+
+    let instruction_data: [u8; 1] = [0];
+    let accounts = [account];
+
+    assert_eq!(
+        GreeterCounter::try_from_slice(&accounts[0].data.borrow())
+            .unwrap()
+            .counter,
+        0
+    );
+
+    process_instuction(&program_id, &accounts, &instruction_data);
+
+    assert_eq!(
+        GreeterCounter::try_from_slice(&accounts[0].data.borrow())
+            .unwrap()
+            .counter,
+        1
+    );
 }

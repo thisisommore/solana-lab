@@ -19,7 +19,8 @@ no_entrypoint = [ ]
 # mod MyDate
 
 [dev-dependencies]
+solana-program-test = "1.14.10"
 solana-sdk = "1.14.10"
 
 [lib]
-crate-type=["cdylib"]
+crate-type=["cdylib","lib"]
