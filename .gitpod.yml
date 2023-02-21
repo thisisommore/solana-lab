@@ -3,8 +3,6 @@ image:
 tasks:
     - init: cd maxapp && cargo build
       command: echo $SOLANA_KEY | base64 -d  > /home/gitpod/.config/solana/id.json && solana airdrop 2
-    - name: Solana test validator
-      command: cd ~ && solana-test-validator
 vscode:
   extensions:
     - "rust-lang.rust-analyzer"
